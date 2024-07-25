@@ -13,7 +13,6 @@ urlpatterns = [
     path('lecturasEsp32/', views.LecturaEsp32List.as_view()),
     path('programas/', views.ProgramaList.as_view()),
     path('programaWeek/<int:semana>/', views.ProgramaWeek.as_view()),
-    path('prueba/', views.Prueba),
 
 
     # urls para obtener token de acceso y token de actualización
