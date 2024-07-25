@@ -72,8 +72,37 @@ class ProgramaSerializer(serializers.ModelSerializer):
         model = models.Programa
         fields = '__all__'
 
-class ParametroMetereologicoSerializer(serializers.ModelSerializer):
+class UltimaEsp32Serializer(serializers.ModelSerializer):
     class Meta:
-        model = models.LecturaRaspberry
+        model = models.UltimaEsp32
         fields = '__all__'
 
+class UltimaLecturaRaspberrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.UltimaLecturaRaspberry
+        fields = '__all__'
+
+class DiarioLecturaRaspberrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.DiarioLecturaRaspberry
+        fields = '__all__'
+
+class SemanaLecturaRaspberrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.SemanaLecturaRaspberry
+        fields = '__all__'
+
+class MesLecturaRaspberrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.MesLecturaRaspberry
+        fields = '__all__'   
+
+class DiarioLecturaEsp32Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.DiarioLecturaEsp32
+        fields = '__all__'
+
+class MesLecturaEsp32Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.MesLecturaEsp32
+        fields = '__all__'
