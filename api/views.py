@@ -257,3 +257,12 @@ class Esp32_Usuario(APIView):
         except models.Usuario.DoesNotExist:
             return Response({'error': 'Usuario no encontrado'}, status=status.HTTP_404_NOT_FOUND)
         
+class UltimaSemanaRaspberry(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, raspberry):
+        lecturas = models.SemanaLecturaRaspberry.objects.filter(idRaspberry=raspberry)
+        semana = datetime.now().isocalendar()[1]
+        semana_anterior = semana - 1
+        lecturas_semana = lecturas.filter(semana=semana_anterior)
+        serializer = serializers.SemanaLecturaRaspberrySerializer(lecturas_semana, many=True)
+        return Response(serializer.data)
