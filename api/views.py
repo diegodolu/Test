@@ -82,9 +82,44 @@ class LecturaRaspberryList(APIView):
             serializer = serializers.LecturaRaspberrySerializer(data=request.data)
 
         if serializer.is_valid():
+            # Guardar las lecturas en LecturaRaspberry
             serializer.save()
+            # Actualizar la tabla UltimaLecturaRaspberry
+            self.update_ultima_lectura(serializer.data)
+
+
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def update_ultima_lectura(self, lecturas):
+        # Manejo tanto de una lista de lecturas como de una única lectura
+        if not isinstance(lecturas, list):
+            listaLecturas = [lecturas]
+
+        for lectura_data in listaLecturas:
+            raspberry_id = lectura_data['idRaspberry']
+            defaults = {
+                'fecha': lectura_data['fecha'],
+                'humedad_ambiente': lectura_data['humedad_ambiente'],
+                'temperatura_ambiente': lectura_data['temperatura_ambiente'],
+                'radiacion_solar': lectura_data['radiacion_solar'],
+                'presion_atmosferica': lectura_data['presion_atmosferica'],
+                'velocidad_viento': lectura_data['velocidad_viento'],
+                'et0': lectura_data['et0'],
+                'ruta': lectura_data['ruta'],
+                'idRaspberry': raspberry_id
+            }
+            ultima_lectura, created = models.UltimaLecturaRaspberry.objects.update_or_create(
+                idRaspberry=raspberry_id,
+                defaults=defaults
+            )
+
+            # Usar el serializer para validar los datos antes de guardar
+            ultima_lectura_serializer = serializers.UltimaLecturaRaspberrySerializer(ultima_lectura, data=defaults)
+            if ultima_lectura_serializer.is_valid():
+                ultima_lectura_serializer.save()
+            else:
+                raise ValueError(f"Error updating UltimaLecturaRaspberry: {ultima_lectura_serializer.errors}")
 
 class LecturaEsp32List(APIView):
     permission_classes = [AllowAny]
@@ -102,9 +137,36 @@ class LecturaEsp32List(APIView):
             serializer = serializers.LecturaEsp32Serializer(data=request.data)
 
         if serializer.is_valid():
+            # Guardar las lecturas en LecturaEsp32
             serializer.save()
+            # Actualizar la tabla UltimaEsp32
+            self.update_ultima_lectura(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def update_ultima_lectura(self, lecturas):
+        # Manejo tanto de una lista de lecturas como de una única lectura
+        if not isinstance(lecturas, list):
+            listaLecturas = [lecturas]
+
+        for lectura_data in listaLecturas:
+            esp32_id = lectura_data['idEsp32']
+            defaults = {
+                'fecha': lectura_data['fecha'],
+                'humedad_suelo': lectura_data['humedad_suelo'],
+                'idEsp32': esp32_id
+            }
+            ultima_lectura, created = models.UltimaEsp32.objects.update_or_create(
+                idEsp32=esp32_id,
+                defaults=defaults
+            )
+
+            # Usar el serializer para validar los datos antes de guardar
+            ultima_lectura_serializer = serializers.UltimaEsp32Serializer(ultima_lectura, data=defaults)
+            if ultima_lectura_serializer.is_valid():
+                ultima_lectura_serializer.save()
+            else:
+                raise ValueError(f"Error updating UltimaEsp32: {ultima_lectura_serializer.errors}")
     
 class ProgramaList(APIView):
     permission_classes = [AllowAny]
@@ -168,3 +230,16 @@ class ResetPassword(APIView):
             return Response({"error": "Token inválido."}, status=400)
         
 
+class Ultima_lectura_esp32(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, valvula):
+        lectura = models.UltimaEsp32.objects.filter(idEsp32=valvula)
+        serializer = serializers.UltimaEsp32Serializer(lectura)
+        return Response(serializer.data)
+
+class Ultima_lectura_raspberry(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, raspberry):
+        lectura = models.UltimaLecturaRaspberry.objects.filter(idRaspberry=raspberry)
+        serializer = serializers.UltimaLecturaRaspberrySerializer(lectura)
+        return Response(serializer.data)
