@@ -231,15 +231,29 @@ class ResetPassword(APIView):
         
 
 class Ultima_lectura_esp32(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     def get(self, request, valvula):
-        lectura = models.UltimaEsp32.objects.filter(idEsp32=valvula)
+        lectura = models.UltimaEsp32.objects.get(idEsp32=valvula)
         serializer = serializers.UltimaEsp32Serializer(lectura)
         return Response(serializer.data)
 
 class Ultima_lectura_raspberry(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     def get(self, request, raspberry):
-        lectura = models.UltimaLecturaRaspberry.objects.filter(idRaspberry=raspberry)
+        lectura = models.UltimaLecturaRaspberry.objects.get(idRaspberry=raspberry)
         serializer = serializers.UltimaLecturaRaspberrySerializer(lectura)
         return Response(serializer.data)
+    
+
+class Esp32_Usuario(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, usuario_id):
+        try:
+            usuario = models.Usuario.objects.get(id=usuario_id)
+            raspberries = usuario.idRaspberry.all() 
+            esp32s = models.Esp32Control.objects.filter(idRaspberry__in=raspberries)
+            serializer = serializers.Esp32ControlSerializer(esp32s, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except models.Usuario.DoesNotExist:
+            return Response({'error': 'Usuario no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+        

@@ -13,7 +13,11 @@ urlpatterns = [
     path('lecturasEsp32/', views.LecturaEsp32List.as_view()),
     path('programas/', views.ProgramaList.as_view()),
     path('programaWeek/<int:semana>/', views.ProgramaWeek.as_view()),
-    
+
+    # urls para Dashboard - Monitoreo
+    path('lecturasEsp32/ultima/<int:valvula>/', views.Ultima_lectura_esp32.as_view()),
+    path('lecturasRaspberry/ultima/<int:raspberry>/', views.Ultima_lectura_raspberry.as_view()),
+     path('esp32/<int:usuario_id>/', views.Esp32_Usuario.as_view()),
 
 
     # urls para obtener token de acceso y token de actualización
