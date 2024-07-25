@@ -103,7 +103,6 @@ class Programa(models.Model):
 
 class UltimaEsp32(models.Model):
     id = models.AutoField(primary_key=True)
-    codigo = models.CharField(max_length=10)
     fecha = models.DateTimeField()
     humedad_suelo = models.FloatField()
     idEsp32 = models.IntegerField()
