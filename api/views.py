@@ -58,6 +58,13 @@ class RaspberryList(APIView):
         raspberries = models.Raspberry.objects.all()
         serializer = serializers.RaspberrySerializer(raspberries, many=True)
         return Response(serializer.data)
+    
+class RaspberryDetail(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, pk):
+        raspberry = models.Raspberry.objects.get(id=pk)
+        serializer = serializers.RaspberrySerializer(raspberry)
+        return Response(serializer.data)
 
 class Esp32HumedadList(APIView):
     permission_classes = [IsAuthenticated]

@@ -8,6 +8,7 @@ urlpatterns = [
     path('usuarios/', views.UsuarioList.as_view()),
     path('usuarios/<int:pk>/', views.UsuarioDetail.as_view()),
     path('raspberries/', views.RaspberryList.as_view()),
+    path('raspberries/<int:pk>/', views.RaspberryDetail.as_view()),
     path('esp32/', views.Esp32HumedadList.as_view()),
     path('lecturasRaspberry/', views.LecturaRaspberryList.as_view()),
     path('lecturasEsp32/', views.LecturaEsp32List.as_view()),
