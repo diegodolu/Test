@@ -189,4 +189,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = DEFAULT_FROM_EMAIL
 EMAIL_HOST_PASSWORD = 'laft drfy qhqc aenj'
 
+# url de despliegue
+CSRF_TRUSTED_ORIGINS = ['http://*','https://secure-dedication-production.up.railway.app/']
+
 
