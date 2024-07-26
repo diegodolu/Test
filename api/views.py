@@ -449,6 +449,20 @@ class LecturasEsp32Personalizadas(APIView):
 class UltimasImagenes(APIView):
     permission_classes = [AllowAny]
     def get(self, request, pk, num):
-        lecturas = models.LecturaRaspberry.objects.filter(idRaspberry=pk).order_by('-id')[:num]
-        serializer = serializers.LecturaRaspberrySerializer(lecturas, many=True)
-        return Response(serializer.data)
+        try:
+            lecturas = models.LecturaRaspberry.objects.filter(idRaspberry=pk).order_by('-id')[:num]
+            serializer = serializers.LecturaRaspberrySerializer(lecturas, many=True)
+            return Response(serializer.data)
+        except models.LecturaRaspberry.DoesNotExist:
+            return Response({'error': 'No hay imagenes registradas para este raspberry'}, status=404)
+
+    
+class UltimoRiegoProgramado(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, esp32):
+        try:
+            programa = models.Programa.objects.filter(idEsp32=esp32).latest('id')
+            serializer = serializers.ProgramaSerializer(programa)
+            return Response(serializer.data)
+        except models.Programa.DoesNotExist:
+            return Response({'error': 'No hay programas registrados para este esp32'}, status=404)

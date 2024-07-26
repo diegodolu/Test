@@ -33,7 +33,10 @@ urlpatterns = [
     path('raspberries/<int:pk>/', views.RaspberryDetail.as_view()),
 
     #urls para Dashboard - Campo
-    path('lecturasRaspberry/<int:pk>/ultimasImagenes/<int:num>', views.UltimasImagenes.as_view()),
+    path('lecturasRaspberry/<int:pk>/ultimasImagenes/<int:num>', views.UltimasImagenes.as_view()), # las ultimas 5 lecturas del raspberry correspondiente
+    
+    #urls para Dashboard - Programacion
+    path('programa/ultimoRiegoProgramado/<int:esp32>/', views.UltimoRiegoProgramado.as_view()), 
 
     # urls para obtener token de acceso y token de actualización
     path('token/', views.CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
