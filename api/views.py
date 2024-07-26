@@ -446,3 +446,9 @@ class LecturasEsp32Personalizadas(APIView):
         return Response(serializer.data)
 
 
+class UltimasImagenes(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, pk, num):
+        lecturas = models.LecturaRaspberry.objects.filter(idRaspberry=pk).order_by('-id')[:num]
+        serializer = serializers.LecturaRaspberrySerializer(lecturas, many=True)
+        return Response(serializer.data)
