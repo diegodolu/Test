@@ -1,1 +1,1 @@
-web: gunicorn rma-api.wsgi
+web: python manage.py collectstatic && gunicorn rma-api.wsgi
