@@ -331,3 +331,4 @@ class UltimosSieteDiasEsp32(APIView):
         lecturas = models.SieteDiasAnterioresLecturaEsp32.objects.filter(idEsp32=esp32)
         serializer = serializers.SieteDiasAnterioresLecturaEsp32Serializer(lecturas, many=True)
         return Response(serializer.data)
+
