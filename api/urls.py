@@ -21,7 +21,8 @@ urlpatterns = [
 
     # urls para Dashboard - Historial ----> Estación meteológica
     path('lecturasRaspberry/ultimaSemana/<int:raspberry>/', views.UltimaSemanaRaspberry.as_view()), #funcional pero no se usa por el momento
-    path('lecturasRaspberry/ultimosSieteDias/<int:esp32>/', views.UltimosSieteDiasEsp32.as_view()), #funcional pero no se usa por el momento
+    path('lecturasRaspberry/ultimosSieteDiasEsp32/<int:esp32>/', views.UltimosSieteDiasEsp32.as_view()), 
+    path('lecturasRaspberry/ultimosSieteDiasRaspberry/<int:raspberry>/', views.UltimosSieteDiasRaspberry.as_view()), 
  
 
 
