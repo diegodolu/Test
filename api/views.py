@@ -466,3 +466,13 @@ class UltimoRiegoProgramado(APIView):
             return Response(serializer.data)
         except models.Programa.DoesNotExist:
             return Response({'error': 'No hay programas registrados para este esp32'}, status=404)
+        
+class DescargaEsp32(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, esp32):
+        try:
+            esp32 = models.Esp32Control.objects.get(id=esp32)
+            serializer = serializers.Esp32ControlSerializer(esp32)
+            return Response(serializer.data)
+        except models.Esp32Control.DoesNotExist:
+            return Response({'error': 'Esp32 no encontrado'}, status=404)
