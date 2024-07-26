@@ -21,7 +21,6 @@ urlpatterns = [
     path('esp32/<int:usuario_id>/', views.Esp32_Usuario.as_view()), # también se usa en Dashboard - Sensores
 
     # urls para Dashboard - Historial ----> Estación meteológica
-    path('lecturasRaspberry/ultimaSemana/<int:raspberry>/', views.UltimaSemanaRaspberry.as_view()), #funcional pero no se usa por el momento
     path('lecturasRaspberry/ultimosSieteDiasEsp32/<int:esp32>/', views.UltimosSieteDiasEsp32.as_view()), 
     path('lecturasRaspberry/ultimosSieteDiasRaspberry/<int:raspberry>/', views.UltimosSieteDiasRaspberry.as_view()), 
     path('lecturasRaspberry/mensual/<int:raspberry>/', views.MensualRaspberry.as_view()),
@@ -38,6 +37,7 @@ urlpatterns = [
     #urls para Dashboard - Programacion
     path('programa/ultimoRiegoProgramado/<int:esp32>/', views.UltimoRiegoProgramado.as_view()), 
     path('esp32/<int:esp32>/descarga/', views.DescargaEsp32.as_view()),
+    path('lecturasRaspberry/ultimaSemana/<int:raspberry>/', views.UltimaSemanaRaspberry.as_view()),
 
     # urls para obtener token de acceso y token de actualización
     path('token/', views.CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),

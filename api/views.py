@@ -476,3 +476,4 @@ class DescargaEsp32(APIView):
             return Response(serializer.data)
         except models.Esp32Control.DoesNotExist:
             return Response({'error': 'Esp32 no encontrado'}, status=404)
+        
