@@ -37,7 +37,7 @@ urlpatterns = [
     #urls para Dashboard - Programacion
     path('programa/ultimoRiegoProgramado/<int:esp32>/', views.UltimoRiegoProgramado.as_view()), 
     path('esp32/<int:esp32>/descarga/', views.DescargaEsp32.as_view()),
-    path('lecturasRaspberry/ultimaSemana/<int:raspberry>/', views.UltimaSemanaRaspberry.as_view()),
+    path('lecturasRaspberry/ultimaSemana/<int:raspberry>/', views.UltimaSemanaRaspberry.as_view()), # para sacar la et0 de la semana anterior
 
     # urls para obtener token de acceso y token de actualización
     path('token/', views.CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
