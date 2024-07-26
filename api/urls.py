@@ -25,7 +25,8 @@ urlpatterns = [
     path('lecturasRaspberry/ultimosSieteDiasRaspberry/<int:raspberry>/', views.UltimosSieteDiasRaspberry.as_view()), 
     path('lecturasRaspberry/mensual/<int:raspberry>/', views.MensualRaspberry.as_view()),
     path('lecturasEsp32/mensual/<int:esp32>/', views.MensualEsp32.as_view()),
-    path('lecturasRaspberry/<int:raspberry>/<str:fecha_inicio>/<str:fecha_fin>/', views.LecturasRaspberryPersonalizadas.as_view()),
+    path('lecturasRaspberry/<int:raspberry>/<str:fecha_inicio>/<str:fecha_fin>/', views.LecturasRaspberryPersonalizadas.as_view()), # la fecha debe tener un formato 'YYYY-MM-DD'
+    path('lecturasEsp32/<int:esp32>/<str:fecha_inicio>/<str:fecha_fin>/', views.LecturasEsp32Personalizadas.as_view()), # la fecha debe tener un formato 'YYYY-MM-DD'
 
     # urls para obtener token de acceso y token de actualización
     path('token/', views.CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
