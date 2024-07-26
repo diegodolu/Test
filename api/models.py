@@ -156,6 +156,7 @@ class MesLecturaRaspberry(models.Model):
 class DiarioLecturaEsp32(models.Model):
     id = models.AutoField(primary_key=True)
     fecha = models.DateTimeField()
+    dia = models.IntegerField(default=0)
     humedad_suelo = models.FloatField()
     idEsp32 = models.IntegerField()
 
@@ -165,8 +166,12 @@ class MesLecturaEsp32(models.Model):
     humedad_suelo = models.FloatField()
     idEsp32 = models.IntegerField()
 
-
-
+class SieteDiasAnterioresLecturaEsp32(models.Model):
+    id = models.AutoField(primary_key=True)
+    fecha = models.DateTimeField()
+    dia = models.IntegerField(default=0)
+    humedad_suelo = models.FloatField()
+    idEsp32 = models.IntegerField()
 
 
 

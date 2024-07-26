@@ -106,3 +106,8 @@ class MesLecturaEsp32Serializer(serializers.ModelSerializer):
     class Meta:
         model = models.MesLecturaEsp32
         fields = '__all__'
+
+class SieteDiasAnterioresLecturaEsp32Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.SieteDiasAnterioresLecturaEsp32
+        fields = '__all__'

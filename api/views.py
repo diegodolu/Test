@@ -141,6 +141,8 @@ class LecturaEsp32List(APIView):
             serializer.save()
             # Actualizar la tabla UltimaEsp32
             self.update_ultima_lectura(serializer.data)
+            # Actualizar la tabla SieteDiasAnterioresLecturaEsp32
+            self.update_ultimas_siete_lecturas(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
@@ -167,6 +169,51 @@ class LecturaEsp32List(APIView):
                 ultima_lectura_serializer.save()
             else:
                 raise ValueError(f"Error updating UltimaEsp32: {ultima_lectura_serializer.errors}")
+            
+    def update_ultimas_siete_lecturas(self, lecturas):
+        # Manejo tanto de una lista de lecturas como de una única lectura
+        if not isinstance(lecturas, list):
+            listaLecturas = [lecturas]
+
+        for lectura_data in listaLecturas:
+            esp32_id = lectura_data['idEsp32']
+            fecha= lectura_data['fecha']
+            fecha_mod =  datetime.strptime(fecha, '%Y-%m-%dT%H:%M:%SZ')
+            dia =fecha_mod.weekday()
+
+            defaults = {
+                'fecha': lectura_data['fecha'],
+                'humedad_suelo': lectura_data['humedad_suelo'],
+                'idEsp32': esp32_id,
+                'dia': dia
+            }
+            # Buscar si ya existe una entrada para este esp32_id y día de la semana
+            try:
+                ultima_lectura = models.SieteDiasAnterioresLecturaEsp32.objects.get(
+                    idEsp32=esp32_id,
+                    dia=dia
+                )
+                # Actualizar el registro existente
+                for attr, value in defaults.items():
+                    setattr(ultima_lectura, attr, value)
+                ultima_lectura.save()
+                print("Actualizado el registro existente")
+
+            except models.SieteDiasAnterioresLecturaEsp32.DoesNotExist:
+                # Crear un nuevo registro si no existe
+                ultima_lectura = models.SieteDiasAnterioresLecturaEsp32(**defaults)
+                ultima_lectura.save()
+                print("Creado un nuevo registro")
+        
+            # Usar el serializer para validar los datos antes de guardar
+            ultima_lectura_serializer = serializers.SieteDiasAnterioresLecturaEsp32Serializer(ultima_lectura, data=defaults)
+            if ultima_lectura_serializer.is_valid():
+                ultima_lectura_serializer.save()
+            else:
+                raise ValueError(f"Error updating UltimaEsp32: {ultima_lectura_serializer.errors}")
+
+
+
     
 class ProgramaList(APIView):
     permission_classes = [AllowAny]
@@ -265,4 +312,22 @@ class UltimaSemanaRaspberry(APIView):
         semana_anterior = semana - 1
         lecturas_semana = lecturas.filter(semana=semana_anterior)
         serializer = serializers.SemanaLecturaRaspberrySerializer(lecturas_semana, many=True)
+        return Response(serializer.data)
+    
+class UltimaSemanaEsp32(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, esp32):
+        lecturas = models.SemanaLecturaEsp32.objects.filter(idEsp32=esp32)
+        semana = datetime.now().isocalendar()[1]
+        semana_anterior = semana - 1
+        lecturas_semana = lecturas.filter(semana=semana_anterior)
+        serializer = serializers.SemanaLecturaEsp32Serializer(lecturas_semana, many=True)
+        return Response(serializer.data)
+    
+
+class UltimosSieteDiasEsp32(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, esp32):
+        lecturas = models.SieteDiasAnterioresLecturaEsp32.objects.filter(idEsp32=esp32)
+        serializer = serializers.SieteDiasAnterioresLecturaEsp32Serializer(lecturas, many=True)
         return Response(serializer.data)

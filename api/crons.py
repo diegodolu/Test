@@ -16,6 +16,7 @@ def registrar_lectura_diaria_raspberry():
     inicio_dia = datetime.combine(hoy, datetime.min.time())
     fin_dia = datetime.combine(hoy, datetime.max.time())
 
+
     # Modificar la consulta para filtrar por rango de fechas
     ids_raspberry = LecturaRaspberry.objects.filter(fecha=hoy).values_list('idRaspberry', flat=True).distinct()
 
@@ -50,6 +51,7 @@ def registrar_lectura_diaria_raspberry():
 
 def registrar_lectura_diaria_esp32():
     hoy = datetime.now().date()
+    nombre_dia = datetime.now().weekday()
 
     # Crear objetos datetime para el inicio y el final del día
     inicio_dia = datetime.combine(hoy, datetime.min.time())
@@ -71,6 +73,7 @@ def registrar_lectura_diaria_esp32():
         DiarioLecturaEsp32.objects.create(
             fecha=hoy,
             idEsp32=id_esp32,
+            dia = nombre_dia,
             humedad_suelo=promedios_y_suma['promedio_humedad_suelo'],
         )
 
