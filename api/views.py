@@ -389,3 +389,17 @@ class UltimosSieteDiasRaspberry(APIView):
         lecturas = models.SieteDiasAnterioresLecturaRaspberry.objects.filter(idRaspberry=raspberry)
         serializer = serializers.SieteDiasAnterioresLecturaRaspberrySerializer(lecturas, many=True)
         return Response(serializer.data)
+
+class MensualRaspberry(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, raspberry):
+        lecturas = models.MesLecturaRaspberry.objects.filter(idRaspberry=raspberry)
+        serializer = serializers.MesLecturaRaspberrySerializer(lecturas, many=True)
+        return Response(serializer.data)
+    
+class MensualEsp32(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, esp32):
+        lecturas = models.MesLecturaEsp32.objects.filter(idEsp32=esp32)
+        serializer = serializers.MesLecturaEsp32Serializer(lecturas, many=True)
+        return Response(serializer.data)
