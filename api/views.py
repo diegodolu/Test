@@ -403,3 +403,23 @@ class MensualEsp32(APIView):
         lecturas = models.MesLecturaEsp32.objects.filter(idEsp32=esp32)
         serializer = serializers.MesLecturaEsp32Serializer(lecturas, many=True)
         return Response(serializer.data)
+    
+class LecturasRaspberryPersonalizadas(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, raspberry, fecha_inicio, fecha_fin):
+        print(fecha_inicio)
+        print(fecha_fin)
+        try:
+            fecha_inicio_dt = datetime.strptime(fecha_inicio, '%Y-%m-%d')
+            fecha_fin_dt = datetime.strptime(fecha_fin, '%Y-%m-%d')
+        except ValueError:
+            return Response({'error': 'Formato de fecha inválido'}, status=400)
+
+        lecturas = models.DiarioLecturaRaspberry.objects.filter(
+            idRaspberry=raspberry,
+            fecha__range=(fecha_inicio_dt, fecha_fin_dt)
+        )
+        serializer = serializers.DiarioLecturaRaspberrySerializer(lecturas, many=True)
+        return Response(serializer.data)
+
+
