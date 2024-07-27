@@ -123,19 +123,18 @@ SIMPLE_JWT = {
 
 WSGI_APPLICATION = 'back.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #         'NAME': 'riego',
 #         'USER': 'root',
 #         'PASSWORD': 'root',
-#         'HOST': 'localhost',  # O la dirección IP de tu servidor MySQL
-#         'PORT': '3306',  # El puerto por defecto de MySQL
+#         'HOST': '127.0.0.1',  # O la dirección IP de tu servidor MySQL
+#         'PORT': '5432',  # El puerto por defecto de MySQL
 #     }
 # }
 DATABASES = {
