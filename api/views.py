@@ -293,6 +293,20 @@ class ProgramaList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    def put(self, request):
+        programa = models.Programa.objects.get(id=request.data['id'])
+        serializer = serializers.ProgramaSerializer(programa, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    def delete(self, request):
+        programa = models.Programa.objects.get(id=request.data['id'])
+        programa.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    
 
 class ProgramaWeek(APIView):
     permission_classes = [AllowAny]
@@ -446,3 +460,34 @@ class LecturasEsp32Personalizadas(APIView):
         return Response(serializer.data)
 
 
+class UltimasImagenes(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, pk, num):
+        try:
+            lecturas = models.LecturaRaspberry.objects.filter(idRaspberry=pk).order_by('-id')[:num]
+            serializer = serializers.LecturaRaspberrySerializer(lecturas, many=True)
+            return Response(serializer.data)
+        except models.LecturaRaspberry.DoesNotExist:
+            return Response({'error': 'No hay imagenes registradas para este raspberry'}, status=404)
+
+    
+class UltimoRiegoProgramado(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, esp32):
+        try:
+            programa = models.Programa.objects.filter(idEsp32=esp32).latest('id')
+            serializer = serializers.ProgramaSerializer(programa)
+            return Response(serializer.data)
+        except models.Programa.DoesNotExist:
+            return Response({'error': 'No hay programas registrados para este esp32'}, status=404)
+        
+class DescargaEsp32(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, esp32):
+        try:
+            esp32 = models.Esp32Control.objects.get(id=esp32)
+            serializer = serializers.Esp32ControlSerializer(esp32)
+            return Response(serializer.data)
+        except models.Esp32Control.DoesNotExist:
+            return Response({'error': 'Esp32 no encontrado'}, status=404)
+        
