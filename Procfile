@@ -1,1 +1,1 @@
-web: gunicorn rma-api.wsgi
+web: gunicorn back.wsgi
