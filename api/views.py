@@ -66,12 +66,61 @@ class RaspberryDetail(APIView):
         serializer = serializers.RaspberrySerializer(raspberry)
         return Response(serializer.data)
 
+    def patch(self, request, pk):  # Actualiza un Raspberry, la llave debe ser bateria con su respectivo valor
+        raspberry = models.Raspberry.objects.get(id=pk)
+        serializer = serializers.RaspberrySerializer(raspberry, data=request.data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class Raspberry_Usuario(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, usuario_id):
+        try:
+            usuario = models.Usuario.objects.get(id=usuario_id)
+            raspberries = usuario.idRaspberry.all()
+            serializer = serializers.RaspberrySerializer(raspberries, many=True)
+            return Response(serializer.data)
+        except models.Usuario.DoesNotExist:
+            return Response({'error': 'Usuario no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
 class Esp32HumedadList(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
         esp32s = models.Esp32Humedad.objects.all()
         serializer = serializers.Esp32Serializer(esp32s, many=True)
         return Response(serializer.data)
+
+class Esp32HumedadDetail(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, pk):
+        esp32 = models.Esp32Humedad.objects.get(id=pk)
+        serializer = serializers.Esp32HumedadSerializer(esp32)
+        return Response(serializer.data)
+    
+    def patch(self,request, pk):
+        esp32 = models.Esp32Humedad.objects.get(id=pk)
+        serializer = serializers.Esp32HumedadSerializer(esp32, data=request.data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class Esp32ControlDetail(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, pk):
+        esp32 = models.Esp32Control.objects.get(id=pk)
+        serializer = serializers.Esp32ControlSerializer(esp32)
+        return Response(serializer.data)
+    
+    def patch(self,request, pk):
+        esp32 = models.Esp32Control.objects.get(id=pk)
+        serializer = serializers.Esp32ControlSerializer(esp32, data=request.data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LecturaRaspberryList(APIView):
     permission_classes = [AllowAny]
