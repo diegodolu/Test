@@ -183,7 +183,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'api.Usuario' 
 
-FRONTEND_URL = 'http://localhost:5173'
+FRONTEND_URL = os.getenv('FRONTEND_URL')
 DEFAULT_FROM_EMAIL = 'diego.bejarano@tecsup.edu.pe'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
