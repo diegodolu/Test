@@ -371,7 +371,7 @@ class RequestPasswordReset(APIView):
         user = models.Usuario.objects.filter(email=email).first()
         if user:
             token = models.PasswordResetToken.objects.create(user=user)
-            reset_url = f"{settings.FRONTEND_URL}reset-password/{token.token}"
+            reset_url = f"{settings.FRONTEND_URL}api/reset-password/{token.token}"
             send_mail(
                 'Recuperación de contraseña',
                 f'Usa este enlace para restablecer tu contraseña: {reset_url}',
