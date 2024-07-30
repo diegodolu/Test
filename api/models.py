@@ -69,6 +69,8 @@ class Esp32Control(models.Model):
     descarga = models.FloatField()
     latitud = models.FloatField()
     longitud = models.FloatField()
+    cc = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
+    pmp = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
     idRaspberry = models.ForeignKey(Raspberry, on_delete=models.CASCADE)
     
 class LecturaRaspberry(models.Model):
@@ -81,8 +83,6 @@ class LecturaRaspberry(models.Model):
     velocidad_viento = models.FloatField()
     et0 = models.FloatField()
     ruta = models.CharField(max_length=100)
-    cc = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
-    pmp = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
     idRaspberry = models.ForeignKey(Raspberry, on_delete=models.CASCADE)
 
 class LecturaEsp32(models.Model):
