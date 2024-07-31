@@ -17,6 +17,8 @@ urlpatterns = [
     path('lecturasEsp32/', views.LecturaEsp32List.as_view()),
     path('programas/', views.ProgramaList.as_view()),
     path('programaWeek/<int:semana>/', views.ProgramaWeek.as_view()),
+    path('programa/edit/<int:pk>/', views.ProgramaEdit.as_view()),
+    path('programa/delete/<int:pk>/', views.ProgramaDelete.as_view()),
 
     # urls para Dashboard - Monitoreo
     path('lecturasEsp32/ultima/<int:valvula>/', views.Ultima_lectura_esp32.as_view()),

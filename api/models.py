@@ -69,8 +69,8 @@ class Esp32Control(models.Model):
     descarga = models.FloatField()
     latitud = models.FloatField()
     longitud = models.FloatField()
-    cc = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
-    pmp = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
+    cc = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
+    pmp = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
     idRaspberry = models.ForeignKey(Raspberry, on_delete=models.CASCADE)
     
 class LecturaRaspberry(models.Model):
@@ -188,7 +188,3 @@ class SieteDiasAnterioresLecturaRaspberry(models.Model):
     et0 = models.FloatField()
     ruta = models.CharField(max_length=100, default='')
     idRaspberry = models.IntegerField()
-
-
-
-
