@@ -404,13 +404,13 @@ class ProgramaList(APIView):
             name="Ejemplo de solicitud",
             description="Un ejemplo de cómo debería ser la solicitud.",
             value={
-                'fecha': '2021-09-01T00:00:00Z',
-                'semana': 21,
-                'hora_inicio': '18:00:00',
-                'hora_fin': '19:00:00',
-                'kc': 1.0,
-                'volumen_ha': 100.0,
-                'idEsp32_id': 1
+                "fecha": "2024-09-05",
+                "semana": 32,
+                "hora_inicio": "18:00:00",
+                "hora_fin": "19:00:00",
+                "kc": 1,
+                "volumen_ha": 100,
+                "idEsp32": 1
             }
         )]) 
     def post(self, request):
