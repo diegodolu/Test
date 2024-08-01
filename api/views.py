@@ -131,7 +131,7 @@ class Esp32HumedadList(APIView):
 
 class Esp32HumedadDetail(APIView):
     permission_classes = [AllowAny]
-    @extend_schema(summary="Endpoint para obtener de detalle de un Esp32 de humedad", tags=["Generales"])  
+    @extend_schema(summary="Endpoint para obtener de detalle de un Esp32 de humedad", tags=["Generales", "Dashboard - Campo"])  
     def get(self, request, pk):
         esp32 = models.Esp32Humedad.objects.get(id=pk)
         serializer = serializers.Esp32HumedadSerializer(esp32)
@@ -148,7 +148,7 @@ class Esp32HumedadDetail(APIView):
     
 class Esp32ControlDetail(APIView):
     permission_classes = [AllowAny]
-    @extend_schema(summary="Endpoint para obtener el detalle de un Esp32 de control", tags=["Generales"])  
+    @extend_schema(summary="Endpoint para obtener el detalle de un Esp32 de control", tags=["Generales", "Dashboard - Campo"])  
     def get(self, request, pk):
         esp32 = models.Esp32Control.objects.get(id=pk)
         serializer = serializers.Esp32ControlSerializer(esp32)
@@ -493,7 +493,7 @@ class ResetPassword(APIView):
 
 class Ultima_lectura_esp32(APIView):
     permission_classes = [AllowAny]
-    @extend_schema(summary="Endpoint para obtener la ultima lectura de un Esp32 de humedad", tags=["Dashboard - Monitoreo"]) 
+    @extend_schema(summary="Endpoint para obtener la ultima lectura de un Esp32 de humedad", tags=["Dashboard - Monitoreo", "Dashboard - Campo"]) 
     def get(self, request, valvula):
         lectura = models.UltimaEsp32.objects.get(idEsp32=valvula)
         serializer = serializers.UltimaEsp32Serializer(lectura)
@@ -501,7 +501,7 @@ class Ultima_lectura_esp32(APIView):
 
 class Ultima_lectura_raspberry(APIView):
     permission_classes = [AllowAny]
-    @extend_schema(summary="Endpoint para obtener la ultima lectura de un Raspberry", tags=["Dashboard - Monitoreo"]) 
+    @extend_schema(summary="Endpoint para obtener la ultima lectura de un Raspberry", tags=["Dashboard - Monitoreo", "Dashboard - Campo"]) 
     def get(self, request, raspberry):
         lectura = models.UltimaLecturaRaspberry.objects.get(idRaspberry=raspberry)
         serializer = serializers.UltimaLecturaRaspberrySerializer(lectura)
