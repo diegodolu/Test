@@ -429,9 +429,9 @@ class ProgramaList(APIView):
 class ProgramaEdit(APIView):
     permission_classes = [AllowAny]
     @extend_schema(summary="Endpoint para actualizar riegos programados", tags=["Dashboard - Programación"]) 
-    def put(self, request, pk):
+    def patch(self, request, pk):
         programa = models.Programa.objects.get(id=pk)
-        serializer = serializers.ProgramaSerializer(programa, data=request.data)
+        serializer = serializers.ProgramaSerializer(programa, data=request.data, partial = True)
         if serializer.is_valid():
             serializer.save()
         else:
