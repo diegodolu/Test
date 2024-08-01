@@ -55,7 +55,7 @@ INSTALLED_APPS = [
 
 CRONJOBS = [
     ('45 23 * * *', 'api.crons.registrar_lectura_diaria_raspberry'),
-    ('12 9 * * *', 'api.crons.registrar_lectura_diaria_esp32'),
+    ('15 9 * * *', 'api.crons.registrar_lectura_diaria_esp32'),
     ('45 23 * * 0', 'api.crons.registrar_lectura_semanal_raspberry'),
     ('45 23 * * *', 'api.crons.registrar_lectura_mensual_raspberry'),
     ('45 23 * * *', 'api.crons.registrar_lectura_mensual_esp32'),
