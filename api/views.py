@@ -414,7 +414,6 @@ class ProgramaList(APIView):
             }
         )]) 
     def post(self, request):
-        print("Datos recibidos:", request.data)
         if isinstance(request.data, list):
             # Si se recibe una lista de programas, se realiza una inserción masiva
             serializer = serializers.ProgramaSerializer(data=request.data, many=True)
