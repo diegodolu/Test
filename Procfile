@@ -1,1 +1,1 @@
-web: gunicorn back.wsgi
+web: python manage.py crontab add && gunicorn back.wsgi
