@@ -7,7 +7,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth.hashers import make_password
 from . import models
 from . import serializers
-from . import crons
+from django.db.models import Avg, Sum
 
 from .permissions import IsDeveloper
 from django.core.mail import send_mail
@@ -647,12 +647,47 @@ class DescargaEsp32(APIView):
         except models.Esp32Control.DoesNotExist:
             return Response({'error': 'Esp32 no encontrado'}, status=404)
         
-# class Cronjob_1(APIView):
-#     permission_classes = [AllowAny]
-#     @extend_schema(summary="Endpoint para ejecutar el cronjob 1", tags=["Cronjobs"])  
-#     def get(self, request):
-#         crons.registrar_lectura_diaria_raspberry()
-#         return Response({"message": "Cronjob 1 ejecutado"})
+class Cronjob_1(APIView):
+    permission_classes = [AllowAny]
+    @extend_schema(summary="Endpoint para ejecutar el cronjob 1", tags=["Cronjobs"])  
+    def get(self, request):
+        hoy = datetime.now().date()
+    
+        # Crear objetos datetime para el inicio y el final del día
+        inicio_dia = datetime.combine(hoy, datetime.min.time())
+        fin_dia = datetime.combine(hoy, datetime.max.time())
+
+
+        # Modificar la consulta para filtrar por rango de fechas
+        ids_raspberry = models.LecturaRaspberry.objects.filter(fecha=hoy).values_list('idRaspberry', flat=True).distinct()
+
+        for id_raspberry in ids_raspberry:
+
+            # Calcular promedios y suma para cada idRaspberry
+            promedios_y_suma = models.LecturaRaspberry.objects.filter(
+                fecha__range=(inicio_dia, fin_dia), 
+                idRaspberry=id_raspberry
+            ).aggregate(
+                promedio_humedad_ambiente=Avg('humedad_ambiente'),
+                promedio_temperatura_ambiente=Avg('temperatura_ambiente'),
+                promedio_radiacion_solar=Avg('radiacion_solar'),
+                promedio_presion_atmosferica=Avg('presion_atmosferica'),
+                promedio_velocidad_viento=Avg('velocidad_viento'),
+                suma_et0=Sum('et0')
+            )
+            
+            # Crear un registro en DiarioLecturaRaspberry para cada idRaspberry
+            models.DiarioLecturaRaspberry.objects.create(
+                fecha=hoy,
+                idRaspberry=id_raspberry,
+                humedad_ambiente=promedios_y_suma['promedio_humedad_ambiente'],
+                temperatura_ambiente=promedios_y_suma['promedio_temperatura_ambiente'],
+                radiacion_solar=promedios_y_suma['promedio_radiacion_solar'],
+                presion_atmosferica=promedios_y_suma['promedio_presion_atmosferica'],
+                velocidad_viento=promedios_y_suma['promedio_velocidad_viento'],
+                et0=promedios_y_suma['suma_et0']
+            )
+        return Response({"message": "Cronjob 1 ejecutado"})
 
 # class Cronjob_2(APIView):
 #     permission_classes = [AllowAny]
