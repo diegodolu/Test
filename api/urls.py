@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from . import crons
 
 from rest_framework_simplejwt.views import TokenRefreshView
 
@@ -54,4 +55,12 @@ urlpatterns = [
 
     path('request-password-reset/', views.RequestPasswordReset.as_view(), name='request-password-reset'),
     path('reset-password/<uuid:token>/', views.ResetPassword.as_view(), name='reset-password'),
+
+    # urls para cronjobs
+    path('cronjob1/', views.Cronjob_1.as_view()), # para registra lectura diaria del raspberry
+    path('cronjob2/', views.Cronjob_2.as_view()), # para registra lectura diaria del esp32
+    path('cronjob3/', views.Cronjob_3.as_view()), # para registra lectura semanal del raspberry
+    path('cronjob4/', views.Cronjob_4.as_view()), # para registra lectura mensual del raspberry
+    path('cronjob5/', views.Cronjob_5.as_view()), # para registra lectura mensual del esp32
 ]
+

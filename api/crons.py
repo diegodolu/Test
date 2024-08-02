@@ -120,6 +120,11 @@ def registrar_lectura_mensual_raspberry():
     inicio_mes = datetime(hoy.year, hoy.month, 1)
     mes = hoy.month
 
+    # Función auxiliar para saber si es el último día del mes
+    def es_ultimo_dia(fecha):
+        ultimo_dia = (fecha.replace(day=28) + datetime.timedelta(days=4)).replace(day=1) - datetime.timedelta(days=1)
+        return fecha.day == ultimo_dia.day
+
     if es_ultimo_dia(hoy):
         # Identificar todos los idRaspberry únicos que tienen registros en el rango de fechas
         ids_raspberry = DiarioLecturaRaspberry.objects.filter(fecha__range=[inicio_mes, hoy]).values_list('idRaspberry', flat=True).distinct()
@@ -157,6 +162,11 @@ def registrar_lectura_mensual_esp32():
     hoy = datetime.now()
     inicio_mes = datetime(hoy.year, hoy.month, 1)
     mes = hoy.month
+
+    # Función auxiliar para saber si es el último día del mes
+    def es_ultimo_dia(fecha):
+        ultimo_dia = (fecha.replace(day=28) + datetime.timedelta(days=4)).replace(day=1) - datetime.timedelta(days=1)
+        return fecha.day == ultimo_dia.day
 
     if es_ultimo_dia(hoy):
 
