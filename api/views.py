@@ -647,37 +647,37 @@ class DescargaEsp32(APIView):
         except models.Esp32Control.DoesNotExist:
             return Response({'error': 'Esp32 no encontrado'}, status=404)
         
-class Cronjob_1(APIView):
-    permission_classes = [AllowAny]
-    @extend_schema(summary="Endpoint para ejecutar el cronjob 1", tags=["Cronjobs"])  
-    def get(self, request):
-        crons.registrar_lectura_diaria_raspberry()
-        return Response({"message": "Cronjob 1 ejecutado"})
+# class Cronjob_1(APIView):
+#     permission_classes = [AllowAny]
+#     @extend_schema(summary="Endpoint para ejecutar el cronjob 1", tags=["Cronjobs"])  
+#     def get(self, request):
+#         crons.registrar_lectura_diaria_raspberry()
+#         return Response({"message": "Cronjob 1 ejecutado"})
 
-class Cronjob_2(APIView):
-    permission_classes = [AllowAny]
-    @extend_schema(summary="Endpoint para ejecutar el cronjob 2", tags=["Cronjobs"]) 
-    def get(self, request):
-        crons.registrar_lectura_diaria_esp32()
-        return Response({"message": "Cronjob 2 ejecutado"})
+# class Cronjob_2(APIView):
+#     permission_classes = [AllowAny]
+#     @extend_schema(summary="Endpoint para ejecutar el cronjob 2", tags=["Cronjobs"]) 
+#     def get(self, request):
+#         crons.registrar_lectura_diaria_esp32()
+#         return Response({"message": "Cronjob 2 ejecutado"})
     
-class Cronjob_3(APIView):
-    permission_classes = [AllowAny]
-    @extend_schema(summary="Endpoint para ejecutar el cronjob 3", tags=["Cronjobs"]) 
-    def get(self, request):
-        crons.registrar_lectura_semanal_raspberry()
-        return Response({"message": "Cronjob 2 ejecutado"})
+# class Cronjob_3(APIView):
+#     permission_classes = [AllowAny]
+#     @extend_schema(summary="Endpoint para ejecutar el cronjob 3", tags=["Cronjobs"]) 
+#     def get(self, request):
+#         crons.registrar_lectura_semanal_raspberry()
+#         return Response({"message": "Cronjob 2 ejecutado"})
     
-class Cronjob_4(APIView):
-    permission_classes = [AllowAny]
-    @extend_schema(summary="Endpoint para ejecutar el cronjob 4", tags=["Cronjobs"]) 
-    def get(self, request):
-        crons.registrar_lectura_mensual_raspberry()
-        return Response({"message": "Cronjob 2 ejecutado"})
+# class Cronjob_4(APIView):
+#     permission_classes = [AllowAny]
+#     @extend_schema(summary="Endpoint para ejecutar el cronjob 4", tags=["Cronjobs"]) 
+#     def get(self, request):
+#         crons.registrar_lectura_mensual_raspberry()
+#         return Response({"message": "Cronjob 2 ejecutado"})
     
-class Cronjob_5(APIView):
-    permission_classes = [AllowAny]
-    @extend_schema(summary="Endpoint para ejecutar el cronjob 5", tags=["Cronjobs"]) 
-    def get(self, request):
-        crons.registrar_lectura_mensual_esp32()
-        return Response({"message": "Cronjob 2 ejecutado"})
+# class Cronjob_5(APIView):
+#     permission_classes = [AllowAny]
+#     @extend_schema(summary="Endpoint para ejecutar el cronjob 5", tags=["Cronjobs"]) 
+#     def get(self, request):
+#         crons.registrar_lectura_mensual_esp32()
+#         return Response({"message": "Cronjob 2 ejecutado"})
